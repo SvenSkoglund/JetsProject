@@ -8,12 +8,12 @@ public class ExtraTerrestrial extends Jet implements CombatReady , CargoCarrier{
 
 	@Override
 	public void loadCargo() {
-		System.out.println("Loading Space Cargo");		
+		System.out.println(this.getModel() + ": Loading Space Cargo");		
 	}
 
 	@Override
 	public void fight() {
-		System.out.println("--- Lazers armed ----");		
+		System.out.println(this.getModel() + ": --- Lazers armed ----");		
 	}
 
 }

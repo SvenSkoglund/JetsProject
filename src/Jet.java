@@ -16,7 +16,7 @@ public abstract class Jet {
 	}
 	
 	public void fly() {
-		System.out.println(model +": Ready for takeoff.");
+		System.out.println(model +": Ready for takeoff. Will take " + (range/speed) + " hours to reach max range");
 	}
 	public double getSpeedInMach() {
 		double mach = speed * .0013;
@@ -45,7 +45,7 @@ public abstract class Jet {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [model=" + model + ", speed=" + speed + ", range=" + range + ", price=" + price + "]";
+		return "Model: " + model + ", Speed: " + speed + ", Range: " + range + ", Price: " + price ;
 	}
 
 	public void setRange(int range) {

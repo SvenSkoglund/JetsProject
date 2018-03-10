@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-import javax.management.ListenerNotFoundException;
-
 public class JetsApplication {
 	static AirField airField = new AirField();
 	static Scanner scanner = new Scanner(System.in);
@@ -18,24 +16,45 @@ public class JetsApplication {
 		airFieldInit();
 		while (true) {
 			System.out.println(
-					"---- AirField Menu ----\n1: List Fleet \n2: Fly all jets\n3:View fastest jet\n4: View jet with longest range\n5: Add jet to fleet");
+					"---- AirField Menu ----\n1: List Fleet \n2: Fly all jets\n3: View fastest jet\n4: View jet with longest range\n5: Load cargo planes\n6: Dogfight \n7: Show a jets description\n8: Add jet to fleet\n9: Exit");
 			int entry = scanner.nextInt();
 			switch (entry) {
 			case 1:
 				listFleet();
+				System.out.println();
 				break;
 			case 2:
 				flyAllJets();
+				System.out.println();
 				break;
 			case 3:
 				fastestJet(airField.getJets());
+				System.out.println();
 				break;
 			case 4:
 				System.out.println("Longest Range Jet: " + longestRange(airField.getJets()).toString());
+				System.out.println();
 				break;
 			case 5:
-				addJet(airField.getJets());
+				loadJets(airField.getJets());
+				System.out.println();
 				break;
+			case 6:
+				dogFight(airField.getJets());
+				System.out.println();
+				break;
+			case 7:
+				showDescription(airField.getJets());
+				System.out.println();
+				break;
+			case 8:
+				addJet(airField.getJets());
+				System.out.println();
+				break;
+			case 9:
+				System.out.println("Goodbye");
+				System.out.println();
+				System.exit(0);
 			default:
 				System.out.println("Invalid entry. Try again.");
 			}
@@ -63,7 +82,7 @@ public class JetsApplication {
 		h4Herc.setDescription(
 				"The Hughes H-4 Hercules (also known as the Spruce Goose; registration NX37602) is a prototype strategic airlift flying boat designed and built by the Hughes Aircraft Company. Intended as a transatlantic flight transport for use during World War II, it was not completed in time to be used in the war. The aircraft made only one brief flight on November 2, 1947, and the project never advanced beyond the single example produced. Built from wood because of wartime restrictions on the use of aluminum and concerns about weight, it was nicknamed by critics the Spruce Goose, although it was made almost entirely of birch.[2][3] The Hercules is the largest flying boat ever built, and it has the largest wingspan of any aircraft that has ever flown.[4][N 1]The aircraft remains in good condition. After being displayed to the public for almost 11 years in Long Beach, California from 1980 to 1991, it is now displayed at the Evergreen Aviation & Space Museum in McMinnville, Oregon, United States.");
 		airField.setJets(h4Herc, 3);
-		Jet UFO = new JetImpl("UFO", Double.POSITIVE_INFINITY, Integer.MAX_VALUE, Long.MAX_VALUE);
+		Jet UFO = new ExtraTerrestrial("UFO", Double.POSITIVE_INFINITY, Integer.MAX_VALUE, Long.MAX_VALUE);
 		UFO.setDescription("TOP_SECRET");
 		airField.setJets(UFO, 4);
 	}
@@ -125,7 +144,7 @@ public class JetsApplication {
 			}
 		}
 		System.out.print("Enter the model (Without Spaces)");
-		model = scanner.nextLine();
+		model = scanner.next();
 		System.out.println("Enter the speed");
 		speed = scanner.nextDouble();
 		System.out.println("Enter the range");
@@ -142,12 +161,12 @@ public class JetsApplication {
 		case 2:
 			Jet newJetC = new CargoPlane(model, speed, range, price);
 			promptForDescription(newJetC);
-			newJetArray[jets.length + 1] = newJetC;
+			newJetArray[jets.length] = newJetC;
 			break;
 		case 3:
 			Jet newJetE = new ExtraTerrestrial(model, speed, range, price);
 			promptForDescription(newJetE);
-			newJetArray[jets.length + 1] = newJetE;
+			newJetArray[jets.length] = newJetE;
 			break;
 
 		}
@@ -159,11 +178,11 @@ public class JetsApplication {
 	}
 
 	public static Jet promptForDescription(Jet jet) {
-		System.out.println("Would you like to add a description? y/n");
-		char descriptionChoice = (scanner.next().toLowerCase().charAt(0));
 		while (true) {
+			System.out.println("Would you like to add a description? y/n");
+			char descriptionChoice = (scanner.next().toLowerCase().charAt(0));
 			if (descriptionChoice == 'y') {
-				System.out.println("Please enter a description of the aircraft");
+				System.out.println("Please enter a description of the aircraft (without spaces)");
 				String description = scanner.next();
 				jet.setDescription(description);
 				break;
@@ -174,10 +193,33 @@ public class JetsApplication {
 			}
 			else {
 				System.out.println("Invalid entry. Try again.");
-				String description = scanner.next();
 			}
 		}
 		return jet;
+	}
+
+	public static void showDescription(Jet[] jets) {
+		for (int i = 0; i < jets.length; i++) {
+			System.out.println((i + 1) + ": " + jets[i].getModel());
+		}
+		int entry = scanner.nextInt();
+		System.out.println(jets[entry - 1].getDescription());
+	}
+
+	public static void loadJets(Jet[] jets) {
+		for (int i = 0; i < jets.length; i++) {
+			if (jets[i] instanceof CargoCarrier) {
+				((CargoCarrier) jets[i]).loadCargo();
+			}
+		}
+	}
+
+	public static void dogFight(Jet[] jets) {
+		for (int i = 0; i < jets.length; i++) {
+			if (jets[i] instanceof CombatReady ) {
+				((CombatReady) jets[i]).fight();
+			}
+		}
 	}
 
 }
