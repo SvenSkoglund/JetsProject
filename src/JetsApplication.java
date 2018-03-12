@@ -14,6 +14,10 @@ public class JetsApplication {
 
 	private static void launch() {
 		airFieldInit();
+		displayMenu();
+	}
+
+	private static void displayMenu() {
 		while (true) {
 			System.out.println(
 					"---- AirField Menu ----\n1: List Fleet \n2: Fly all jets\n3: View fastest jet\n4: View jet with longest range\n5: Load cargo planes\n6: Dogfight \n7: Show a jets description\n8: Add jet to fleet\n9: Exit");
@@ -59,10 +63,6 @@ public class JetsApplication {
 				System.out.println("Invalid entry. Try again.");
 			}
 		}
-	}
-
-	private void displayMenu() {
-
 	}
 
 	private static void airFieldInit() {
